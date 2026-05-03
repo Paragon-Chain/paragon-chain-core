@@ -1,27 +1,103 @@
-<a href="https://aptos.dev">
-	<img width="100%" src="./.assets/aptos_banner.png" alt="Aptos Banner" />
-</a>
+# Paragon Chain Core
 
----
+Aptos-derived layer 1 chain core for the Paragon ecosystem.
 
-[![License](https://img.shields.io/badge/license-Apache-green.svg)](LICENSE)
-[![Lint+Test](https://github.com/aptos-labs/aptos-core/actions/workflows/lint-test.yaml/badge.svg)](https://github.com/aptos-labs/aptos-core/actions/workflows/lint-test.yaml)
-[![codecov](https://codecov.io/gh/aptos-labs/aptos-core/branch/main/graph/badge.svg?token=X01RKXSGDE)](https://codecov.io/gh/aptos-labs/aptos-core)
-[![Discord chat](https://img.shields.io/discord/945856774056083548?style=flat-square)](https://discord.gg/aptosnetwork)
+This repository is the sovereign chain foundation for Paragon Chain. It starts from an `aptos-core` fork and is intended to evolve into the canonical node, runtime, validator, genesis, and framework repository for the Paragon L1.
 
-Aptos is a layer 1 blockchain bringing a paradigm shift to Web3 through better technology and user experience. Built with Move to create a home for developers building next-gen applications.
+## What This Repository Owns
 
-## Getting Started
+`paragon-chain-core` is where Paragon will own the parts of the system that cannot be delivered as Move packages alone.
 
-* [Aptos Foundation](https://aptosfoundation.org/)
-* [Aptos Developer Network](https://aptos.dev)
-* [Guide - Integrate with the Aptos Blockchain](https://aptos.dev/guides/system-integrators-guide)
-* [Tutorials](https://aptos.dev/tutorials)
-* Follow us on [Twitter](https://twitter.com/Aptos).
-* Join us on the [Aptos Discord](https://discord.gg/aptosnetwork).
+That includes:
 
-## Contributing
+- the validator and fullnode binary
+- genesis and network bootstrapping
+- framework-level Move integration for chain-native modules
+- chain configuration and gas schedule customization
+- staking, validator, fee-routing, and treasury behavior that must be enforced at chain level
+- runtime and execution changes required for long-term Paragon-specific architecture
 
-You can learn more about contributing to the Aptos project by reading our [Contribution Guide](https://github.com/aptos-labs/aptos-core/blob/main/CONTRIBUTING.md) and by viewing our [Code of Conduct](https://github.com/aptos-labs/aptos-core/blob/main/CODE_OF_CONDUCT.md).
+## What This Repository Does Not Replace
 
-Aptos Core is licensed under [Innovation-Enabling Source Code License](https://github.com/aptos-labs/aptos-core/blob/main/LICENSE).
+This repository is not the same thing as the higher-level protocol repositories.
+
+Use separate repos for:
+
+- protocol contracts and EVM-side systems
+- subgraphs and indexing
+- app frontends
+- Move application packages that should be versioned separately from the chain client
+
+## Foundation
+
+Paragon Chain is being built as an **Aptos-derived MoveVM chain**, not just an application deployed on Aptos.
+
+That means this repository will ultimately be responsible for:
+
+- validator network identity
+- chain genesis
+- native token and gas behavior
+- Move framework release composition
+- consensus, mempool, execution, and storage decisions where Paragon diverges from upstream Aptos
+
+## Immediate Goal
+
+The first goal is not to redesign all of Aptos at once.
+
+The first goal is to create a clean Paragon fork that can:
+
+- compile successfully
+- run a local Paragon devnet
+- expose Paragon naming and chain identity instead of Aptos branding
+- define the minimal chain-native features needed for XPGN, staking, fee routing, and governance bootstrapping
+
+## Repository Areas
+
+| Area | Purpose |
+| --- | --- |
+| `aptos-node/` | Node binary entrypoint and runtime wiring |
+| `aptos-move/framework/` | Core Move framework packages and chain-native modules |
+| `aptos-move/vm-genesis/` | Genesis building and framework publishing logic |
+| `config/` | Validator, node, and network configuration surfaces |
+| `consensus/` | Consensus behavior and validator coordination |
+| `execution/` | Block execution pipeline and runtime integration |
+| `mempool/` | Transaction admission and propagation behavior |
+| `storage/` | State storage and long-term data-layer customization |
+| `sdk/` | Client and integration support for Paragon chain consumers |
+
+## Paragon Scope
+
+The whitepaper direction suggests three layers of work:
+
+1. **Fork and identity layer**
+   Paragon naming, binaries, genesis, token naming, devnet, validator tooling.
+
+2. **Framework and economics layer**
+   XPGN-native gas and staking flows, DAO rails, treasury routing, AI/RWA/L2 registry modules.
+
+3. **Advanced chain differentiation layer**
+   Future execution, settlement, and modularity features that go beyond standard upstream Aptos behavior.
+
+## First Implementation Track
+
+The first implementation track for this repo is documented in:
+
+- [Paragon Fork Roadmap](./docs/PARAGON_FORK_ROADMAP.md)
+- [Chain Customization Map](./docs/CHAIN_CUSTOMIZATION_MAP.md)
+
+## Upstream Relationship
+
+This repository starts from `aptos-core` and should stay explicit about where Paragon diverges from upstream.
+
+Best practice for the fork:
+
+- keep upstream sync manageable
+- isolate Paragon-specific changes clearly
+- document every runtime-level divergence
+- avoid mixing speculative research work into the first devnet milestone
+
+## Current Status
+
+- foundation cloned from `aptos-core`
+- Paragon fork planning documentation in progress
+- next step: establish the first Paragon devnet and chain identity baseline
