@@ -22,6 +22,23 @@ A localnet smoke run also booted successfully using the existing upstream-derive
 
 No XPGN-specific protocol changes are validated yet.
 
+
+## Existing XPGN launch context
+
+As of the current Paragon L1 planning baseline:
+
+- XPGN TGE has already occurred with the Paragon DEX launch on 2026-05-08.
+- The existing XPGN token is an ERC-20 governance token using OpenZeppelin-style `ERC20Capped`, `ERC20Permit`, `ERC20Votes`, role-based mint buckets, and pausable transfers.
+- The declared hard cap is 550,000,000 XPGN with 18 decimals.
+- The launch seed mint was 202,020 XPGN for initial DEX seed liquidity.
+- The validator / chain reserve bucket is 160,000,000 XPGN and is intended for Paragon L1 validator economics.
+- The validator reserve is treated as unminted/set aside until an approved L1 validator rewards distribution path exists.
+- The ERC-20 contract/source and deployed addresses must be verified from canonical chain explorer / repository records before any bridge, migration, genesis, or validator reward implementation depends on them.
+
+Planning implication:
+
+Paragon L1 must treat XPGN as an already-launched ecosystem asset, not as a greenfield token. The L1 design needs an explicit relationship between the existing ERC-20 supply/buckets and any native L1 representation.
+
 ## Strategy principles
 
 1. Prefer framework/genesis configuration over Rust runtime changes.
@@ -39,6 +56,8 @@ Before code changes:
 
 - Define token name, symbol, decimals, and display conventions.
 - Define whether XPGN is the native gas token, a framework coin/fungible asset, or both through Aptos-native mechanisms.
+- Define how the existing ERC-20 XPGN supply and bucketed mint authority map to L1-native accounting.
+- Define the validator reserve path for the 160,000,000 XPGN validator / chain reserve bucket.
 - Define genesis allocation categories.
 - Define treasury custody and signing policy.
 - Define mint/burn/freeze authority model.
@@ -52,6 +71,7 @@ Deliverables:
 
 - Reproducible genesis build command.
 - Explicit chain ID per network profile.
+- Explicit XPGN launch-state assumptions, including existing ERC-20 supply, deployed-contract verification, and validator reserve accounting.
 - Explicit root/treasury authority handling.
 - Deterministic account addresses for testing where appropriate.
 - Reset procedure for devnet.
@@ -158,3 +178,25 @@ These require project approval before implementation:
 - Treasury and mint authority custody.
 - Devnet/testnet/mainnet chain IDs.
 - Upgrade authority model.
+
+## ERC-20 to L1 decision gate
+
+Before implementation, Paragon must choose and document one of these paths:
+
+1. **Canonical bridge path** — existing ERC-20 XPGN remains canonical on its launch chain, and Paragon L1 represents bridged/locked XPGN through a controlled bridge/minter model.
+2. **Native migration path** — users migrate ERC-20 XPGN to native L1 XPGN through a burn/lock/proof/redeem process with strict supply reconciliation.
+3. **Dual representation path** — ERC-20 and native L1 XPGN coexist with explicit accounting, bridge limits, and user-facing risk disclosures.
+
+No path is approved until the team has:
+
+- verified deployed contract addresses and source code from canonical records
+- reconciled minted supply and remaining bucket capacity
+- documented mint authority holders and role-admin controls
+- defined validator reward distributor custody
+- specified bridge/migration security assumptions
+- tested supply invariants on localnet/devnet
+- prepared rollback or pause procedures
+
+## Contract-source caution
+
+The Solidity source used for planning should be checked against the verified deployed source. If source is copied through chat or markdown, formatting can corrupt operators or line breaks. The verified deployed source, constructor args, role holders, and chain-explorer records are authoritative for implementation.

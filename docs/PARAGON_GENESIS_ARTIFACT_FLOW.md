@@ -68,6 +68,18 @@ Policy:
 - must document authority addresses and custody model
 - must never include secrets in repository
 
+
+## XPGN genesis assumptions
+
+Paragon L1 genesis planning must account for the existing XPGN launch state:
+
+- XPGN TGE launched with Paragon DEX on 2026-05-08.
+- Existing XPGN hard cap is 550,000,000.
+- Initial DEX seed mint was 202,020 XPGN.
+- 160,000,000 XPGN is reserved for validator / chain economics and should remain explicitly accounted for.
+
+Mainnet genesis must not silently recreate or double-count existing XPGN supply. Any native L1 representation, bridge, migration, or validator-reward module must include a supply reconciliation artifact and verified source-of-truth references.
+
 ## Required genesis metadata
 
 Each genesis package should record:
@@ -78,6 +90,7 @@ Each genesis package should record:
 - build command
 - framework/package version
 - genesis generation command
+- XPGN launch-state assumptions, including TGE date, verified ERC-20 source/address records, supply snapshot policy, and validator reserve accounting
 - authority addresses
 - validator set source
 - token allocation source

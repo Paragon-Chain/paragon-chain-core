@@ -56,6 +56,20 @@ Policy:
 - must be clearly labeled
 - must not hold production authority
 
+
+## XPGN-specific ownership constraints
+
+XPGN is already launched as an ERC-20 ecosystem asset. Any Paragon L1 Move module that represents native XPGN, bridged XPGN, validator rewards, or supply reconciliation is security-critical.
+
+Required ownership decisions before implementation:
+
+- who controls the L1 XPGN module publishing account
+- whether native XPGN is canonical, bridged, migrated, or dual-represented
+- who controls validator reward distribution for the 160,000,000 XPGN validator / chain reserve bucket
+- whether validator rewards are minted, bridged, locked/unlocked, or distributed through a treasury/reward module
+- which emergency pause/upgrade authority exists during devnet, testnet, and mainnet
+- how L1 accounting prevents exceeding the existing 550,000,000 XPGN hard-cap assumptions
+
 ## Ownership questions to decide
 
 For each Move package/module:
