@@ -74,9 +74,12 @@ Policy:
 Paragon L1 genesis planning must account for the existing XPGN launch state:
 
 - XPGN TGE launched with Paragon DEX on 2026-05-08.
+- Current deployment is on BNB Chain at `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`.
 - Existing XPGN hard cap is 550,000,000.
+- Direct BNB Chain RPC reads confirmed current total supply of 67,000,000 XPGN at block 100420021; bucket-counter invariant remains pending.
 - Initial DEX seed mint was 202,020 XPGN.
-- 160,000,000 XPGN is reserved for validator / chain economics and should remain explicitly accounted for.
+- 160,000,000 XPGN is reserved for validator / chain economics, is currently unminted, and should only mint when Paragon L1 starts validator rewards.
+- There is no DAO currently; mainnet genesis or validator reward activation must define a custody/governance path before value-bearing mint authority is used.
 
 Mainnet genesis must not silently recreate or double-count existing XPGN supply. Any native L1 representation, bridge, migration, or validator-reward module must include a supply reconciliation artifact and verified source-of-truth references.
 

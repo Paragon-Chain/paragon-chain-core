@@ -40,10 +40,12 @@ Planning facts:
 
 - XPGN TGE launched with Paragon DEX on 2026-05-08.
 - XPGN is an already-launched ecosystem asset, not a greenfield L1 token.
+- Current deployment: BNB Chain, `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`.
+- No DAO currently exists; custody/governance must be explicitly defined before L1 value-bearing implementation.
 - Existing XPGN hard cap: 550,000,000 XPGN.
 - Initial DEX seed mint: 202,020 XPGN.
 - Validator / chain reserve bucket: 160,000,000 XPGN.
-- The validator reserve is treated as unminted/set aside until an approved L1 validator rewards path exists.
+- The validator reserve is unminted and should only mint when Paragon L1 starts validator rewards.
 
 Implementation rule:
 
@@ -55,7 +57,7 @@ Objective: establish canonical XPGN facts before code depends on them.
 
 Tasks:
 
-1. Identify the deployed XPGN ERC-20 contract address and network.
+1. Identify the deployed XPGN ERC-20 contract address and network. Current planning record: BNB Chain, `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`.
 2. Verify the deployed source code and constructor arguments from canonical explorer/repository records.
 3. Record current role holders for:
    - default admin
@@ -78,7 +80,7 @@ Tasks:
    - `supplementalMinted`
 5. Verify whether validator minting is currently enabled or disabled.
 6. Record current total supply.
-7. Produce a supply reconciliation note.
+7. Produce a supply reconciliation note. Partial live RPC read captured total supply `67,000,000 XPGN`; bucket-counter invariant remains pending.
 
 Deliverable:
 
@@ -86,7 +88,7 @@ Deliverable:
 
 Approval gate:
 
-No L1-native XPGN implementation before this phase is complete.
+No L1-native XPGN implementation before this phase is complete, including a custody/governance decision for the current no-DAO state.
 
 ## Phase 2 — L1 XPGN design decision
 

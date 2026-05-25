@@ -1,6 +1,6 @@
 # XPGN Canonical Supply Record
 
-Status: pending canonical verification  
+Status: partial canonical record captured / supply invariant pending
 Repo: `paragon-chain-core`
 
 ## Purpose
@@ -17,25 +17,26 @@ It intentionally separates user-provided planning facts from independently verif
 - Launch seed mint: 202,020 XPGN.
 - Validator / chain reserve bucket: 160,000,000 XPGN.
 - Validator / chain reserve is intended for Paragon L1 validator economics.
-- Validator reserve is treated as unminted/set aside until an approved L1 distribution path exists.
+- Validator reserve is unminted and is intended to mint only when Paragon L1 starts validator rewards.
 
 ## Canonical contract records
 
-Pending required inputs:
+Known / pending required inputs:
 
-- launch chain / network: `TBD`
-- deployed XPGN ERC-20 contract address: `TBD`
-- verified source URL: `TBD`
+- launch chain / network: `BNB Chain`
+- deployed XPGN ERC-20 contract address: `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`
+- explorer URL: `https://bscscan.com/token/0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`
+- verified source URL: `TBD — verify from canonical explorer/source repository before implementation`
 - constructor arguments URL or record: `TBD`
 - deployment transaction hash: `TBD`
 - deployer address: `TBD`
-- current admin / DAO multisig address: `TBD`
-- validator rewards/distributor contract address: `TBD`
+- current admin / DAO multisig address: `none currently; admin/custody model must be separately documented before L1 value-bearing work`
+- validator rewards/distributor contract address: `not deployed / TBD; validator reserve is unminted until Paragon L1 validator rewards start`
 - team vesting address: `TBD`
 - advisor vesting address: `TBD`
 - genesis recipient address: `TBD`
 
-Do not fill these from chat text alone. Use canonical explorer, repository, and transaction records.
+Network and contract address were provided by Paragon and partially checked by direct BNB Chain RPC reads. Source, constructor args, deployer, role holders, bucket counters, and custody records still require canonical explorer/repository verification.
 
 ## Contract feature expectations
 
@@ -93,19 +94,24 @@ Also verify role holders for every mint role and `DEFAULT_ADMIN_ROLE`.
 
 ## Supply reconciliation format
 
-When canonical data is available, fill this section:
+Partial live read captured from BNB Chain RPC on 2026-05-25. Values are direct `eth_call` reads at the listed block; full bucket invariant remains pending.
 
 ```text
-network: TBD
-contract: TBD
-block number: TBD
-snapshot timestamp: TBD
-totalSupply: TBD
-global cap remaining: TBD
-validatorMinted: TBD
-validator bucket remaining: TBD
-validatorMintingEnabled: TBD
-supply invariant status: TBD
+network: BNB Chain
+contract: 0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A
+block number: 100420021
+snapshot timestamp: 2026-05-25T21:30:35Z
+name: XPGN Token
+symbol: XPGN
+decimals: 18
+totalSupply: 67,000,000 XPGN
+cap: 550,000,000 XPGN
+global cap remaining: 483,000,000 XPGN
+validatorMinted: expected 0 XPGN / pending direct bucket read
+validator bucket remaining: expected 160,000,000 XPGN / pending direct bucket read
+validatorMintingEnabled: pending direct contract read
+DAO/admin multisig: none currently / custody model pending
+supply invariant status: pending bucket counter reads
 ```
 
 Required invariant:
@@ -126,4 +132,4 @@ If the invariant cannot be checked directly, document why and do not proceed to 
 
 ## L1 implementation gate
 
-No Paragon L1 bridge, migration, native-XPGN mint path, validator reward distributor, or genesis supply mapping is approved until this document has canonical records and a checked supply invariant.
+No Paragon L1 bridge, migration, native-XPGN mint path, validator reward distributor, or genesis supply mapping is approved until this document has verified source/role/custody records and a checked supply invariant. The known BNB Chain address and live total supply are sufficient for planning, not for value-bearing implementation.

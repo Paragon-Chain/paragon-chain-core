@@ -28,11 +28,13 @@ No XPGN-specific protocol changes are validated yet.
 As of the current Paragon L1 planning baseline:
 
 - XPGN TGE has already occurred with the Paragon DEX launch on 2026-05-08.
-- The existing XPGN token is an ERC-20 governance token using OpenZeppelin-style `ERC20Capped`, `ERC20Permit`, `ERC20Votes`, role-based mint buckets, and pausable transfers.
+- The current deployment is on BNB Chain at `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`.
+- Direct BNB Chain RPC reads confirmed token name `XPGN Token`, symbol `XPGN`, 18 decimals, cap `550,000,000 XPGN`, and current total supply `67,000,000 XPGN` at block `100420021`.
+- The existing XPGN token is expected to be an ERC-20 governance token using OpenZeppelin-style `ERC20Capped`, `ERC20Permit`, `ERC20Votes`, role-based mint buckets, and pausable transfers; verified deployed source remains authoritative.
 - The declared hard cap is 550,000,000 XPGN with 18 decimals.
 - The launch seed mint was 202,020 XPGN for initial DEX seed liquidity.
 - The validator / chain reserve bucket is 160,000,000 XPGN and is intended for Paragon L1 validator economics.
-- The validator reserve is treated as unminted/set aside until an approved L1 validator rewards distribution path exists.
+- The validator reserve is unminted and is intended to mint only when Paragon L1 starts validator rewards.
 - The ERC-20 contract/source and deployed addresses must be verified from canonical chain explorer / repository records before any bridge, migration, genesis, or validator reward implementation depends on them.
 
 Planning implication:
@@ -59,7 +61,7 @@ Before code changes:
 - Define how the existing ERC-20 XPGN supply and bucketed mint authority map to L1-native accounting.
 - Define the validator reserve path for the 160,000,000 XPGN validator / chain reserve bucket.
 - Define genesis allocation categories.
-- Define treasury custody and signing policy.
+- Define treasury/admin custody and signing policy. There is no DAO currently, so L1 launch must define an explicit interim custody/governance model before value-bearing changes.
 - Define mint/burn/freeze authority model.
 - Define upgrade/governance ownership.
 
@@ -192,7 +194,7 @@ No path is approved until the team has:
 - verified deployed contract addresses and source code from canonical records
 - reconciled minted supply and remaining bucket capacity
 - documented mint authority holders and role-admin controls
-- defined validator reward distributor custody
+- defined validator reward distributor custody or approved L1-start mint authority path
 - specified bridge/migration security assumptions
 - tested supply invariants on localnet/devnet
 - prepared rollback or pause procedures
