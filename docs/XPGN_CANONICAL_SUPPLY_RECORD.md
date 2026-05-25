@@ -1,13 +1,13 @@
 # XPGN Canonical Supply Record
 
-Status: partial canonical record captured / supply invariant pending
+Status: verified BNB Chain source / live supply invariant recorded
 Repo: `paragon-chain-core`
 
 ## Purpose
 
 This document is the required source-of-truth record before Paragon L1 implements native XPGN, bridged XPGN, migration logic, validator rewards, or supply-sensitive genesis behavior.
 
-It intentionally separates user-provided planning facts from independently verified deployed-contract facts.
+It intentionally separates Paragon-provided custody facts from independently verified deployed-contract facts.
 
 ## Planning facts already provided
 
@@ -18,32 +18,56 @@ It intentionally separates user-provided planning facts from independently verif
 - Validator / chain reserve bucket: 160,000,000 XPGN.
 - Validator / chain reserve is intended for Paragon L1 validator economics.
 - Validator reserve is unminted and is intended to mint only when Paragon L1 starts validator rewards.
+- There is no DAO currently.
 
 ## Canonical contract records
-
-Known / pending required inputs:
 
 - launch chain / network: `BNB Chain`
 - deployed XPGN ERC-20 contract address: `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`
 - explorer URL: `https://bscscan.com/token/0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`
-- verified source URL: `TBD — verify from canonical explorer/source repository before implementation`
-- constructor arguments URL or record: `TBD`
-- deployment transaction hash: `TBD`
-- deployer address: `TBD`
-- current admin / DAO multisig address: `none currently; admin/custody model must be separately documented before L1 value-bearing work`
-- validator rewards/distributor contract address: `not deployed / TBD; validator reserve is unminted until Paragon L1 validator rewards start`
-- team vesting address: `TBD`
-- advisor vesting address: `TBD`
-- genesis recipient address: `TBD`
+- verified source URL: `https://bscscan.com/token/0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A#code`
+- BscScan verification status: `Exact Match`
+- contract name: `XPGNToken`
+- compiler: `Solidity v0.8.27+commit.40a35a09`
+- optimizer: `enabled, 200 runs`
+- EVM version: `paris`
+- deployer / constructor `daoMultisig`: `0x1Ab5F2d39154233cf469382Bb5c286E38Ad64F96`
+- constructor `validatorRewards`: `0xFE1648A6C58D790CDf01e35B8d538163355A540A`
+- constructor `_teamVesting`: `0xc15Ec7880cf3b238e37c7f1f6cBEB2caa580AEa1`
+- constructor `_advisorVesting`: `0xAC609E8D3eB7142482460cd7FFCEB588B0846392`
+- constructor `genesisRecipient`: `0x27ead72500b893161209Ff1297C1bB41E7B72B0c`
 
-Network and contract address were provided by Paragon and partially checked by direct BNB Chain RPC reads. Source, constructor args, deployer, role holders, bucket counters, and custody records still require canonical explorer/repository verification.
+Constructor args from BscScan decoded view:
 
-## Contract feature expectations
+```text
+daoMultisig:       0x1Ab5F2d39154233cf469382Bb5c286E38Ad64F96
+validatorRewards:  0xFE1648A6C58D790CDf01e35B8d538163355A540A
+_teamVesting:      0xc15Ec7880cf3b238e37c7f1f6cBEB2caa580AEa1
+_advisorVesting:   0xAC609E8D3eB7142482460cd7FFCEB588B0846392
+genesisRecipient:  0x27ead72500b893161209Ff1297C1bB41E7B72B0c
+```
 
-The deployed source is expected to include:
+## Paragon-provided custody / operations addresses
 
-- ERC-20 token name/symbol: XPGN Token / XPGN
-- 18 decimals through ERC-20 default behavior
+Provided by Paragon on 2026-05-25:
+
+- team vesting: `0xc15Ec7880cf3b238e37c7f1f6cBEB2caa580AEa1`
+- advisor vesting: `0xAC609E8D3eB7142482460cd7FFCEB588B0846392`
+- genesis reserve: `0x27ead72500b893161209Ff1297C1bB41E7B72B0c`
+- reward dripper: `0x4DC07BB6cd804341D0B22Ac9c5087D81844eC827`
+- farm controller: `0xe78c441A963Dc0E5c9Bcc7b55c4f3D0B82085e6b`
+- admin safe: `0xFA8f82560959fB5597ADDc763570edB234899857`
+- admin timelock: `0xcc88881ee4F0fb3477B02979a325eDD91d306F72`
+- treasury safe: `0x1f7132ae2E16c702BCCEef4aA11F2B804f4E5383`
+
+Operational note: Paragon states the admin safe acts as multisig for the timelock. Direct XPGN role reads show the token admin roles are currently held by the timelock address `0xcc88881ee4F0fb3477B02979a325eDD91d306F72`.
+
+## Contract feature verification
+
+Verified source and ABI show the deployed token includes:
+
+- ERC-20 token name/symbol: `XPGN Token` / `XPGN`
+- 18 decimals through ERC-20 behavior
 - global hard cap via `ERC20Capped`
 - EIP-2612 permit support via `ERC20Permit`
 - vote checkpointing via `ERC20Votes`
@@ -54,11 +78,11 @@ The deployed source is expected to include:
 
 Implementation warning:
 
-Chat-copied Solidity source can be formatting-corrupted. The verified deployed source is authoritative.
+Verified deployed source is authoritative. Chat-copied Solidity source must not be used for value-bearing implementation decisions.
 
 ## Bucket cap record
 
-Expected bucket caps:
+Live cap reads:
 
 - genesis: 10,000,000 XPGN
 - farming: 150,000,000 XPGN
@@ -69,67 +93,118 @@ Expected bucket caps:
 - advisor: 10,000,000 XPGN
 - supplemental: 70,000,000 XPGN
 
-Expected sum of bucket caps: 550,000,000 XPGN.
+Sum of bucket caps: 550,000,000 XPGN.
 
-## Live supply verification checklist
+## Live supply reconciliation
 
-Before L1 implementation, record live values from direct contract reads:
-
-- `totalSupply()`
-- `cap()`
-- `genesisMinted()`
-- `farmingMinted()`
-- `validatorMinted()`
-- `ecosystemMinted()`
-- `treasuryMinted()`
-- `teamMinted()`
-- `advisorMinted()`
-- `supplementalMinted()`
-- `validatorMintingEnabled()`
-- `teamVesting()`
-- `advisorVesting()`
-- `getAdmin()`
-
-Also verify role holders for every mint role and `DEFAULT_ADMIN_ROLE`.
-
-## Supply reconciliation format
-
-Partial live read captured from BNB Chain RPC on 2026-05-25. Values are direct `eth_call` reads at the listed block; full bucket invariant remains pending.
+Direct `eth_call` reads from BNB Chain RPC on 2026-05-25 at block `100425724`:
 
 ```text
 network: BNB Chain
 contract: 0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A
-block number: 100420021
-snapshot timestamp: 2026-05-25T21:30:35Z
+block number: 100425724
 name: XPGN Token
 symbol: XPGN
 decimals: 18
 totalSupply: 67,000,000 XPGN
 cap: 550,000,000 XPGN
 global cap remaining: 483,000,000 XPGN
-validatorMinted: expected 0 XPGN / pending direct bucket read
-validator bucket remaining: expected 160,000,000 XPGN / pending direct bucket read
-validatorMintingEnabled: pending direct contract read
-DAO/admin multisig: none currently / custody model pending
-supply invariant status: pending bucket counter reads
+paused: false
+validatorMintingEnabled: false
 ```
 
-Required invariant:
+Bucket minted counters:
 
 ```text
-genesisMinted
-+ farmingMinted
-+ validatorMinted
-+ ecosystemMinted
-+ treasuryMinted
-+ teamMinted
-+ advisorMinted
-+ supplementalMinted
-== totalSupply
+genesisMinted:       2,000,000 XPGN
+farmingMinted:       0 XPGN
+validatorMinted:     0 XPGN
+ecosystemMinted:     0 XPGN
+treasuryMinted:      0 XPGN
+teamMinted:          55,000,000 XPGN
+advisorMinted:       10,000,000 XPGN
+supplementalMinted:  0 XPGN
 ```
 
-If the invariant cannot be checked directly, document why and do not proceed to value-bearing L1 integration.
+Supply invariant:
+
+```text
+bucket minted sum: 67,000,000 XPGN
+totalSupply:       67,000,000 XPGN
+invariant:         PASS
+validator reserve: UNMINTED
+```
+
+Important distinction:
+
+- Launch seed mint was 202,020 XPGN.
+- Current `genesisMinted()` counter is 2,000,000 XPGN.
+- Therefore additional genesis-bucket minting occurred after the seed mint, while the total supply invariant remains valid.
+
+## Current role holders
+
+Direct `AccessControlEnumerable` reads from BNB Chain RPC on 2026-05-25 at block `100425724`:
+
+```text
+DEFAULT_ADMIN_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+GENESIS_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+FARMING_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+VALIDATOR_MINTER_ROLE:
+  0xfe1648a6c58d790cdf01e35b8d538163355a540a
+
+ECOSYSTEM_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+TREASURY_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+TEAM_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+ADVISOR_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+
+SUPPLEMENTAL_MINTER_ROLE:
+  0xcc88881ee4f0fb3477b02979a325edd91d306f72
+```
+
+## Current key balances
+
+Direct `balanceOf` reads from BNB Chain RPC on 2026-05-25 at block `100425724`:
+
+```text
+team vesting:     55,000,000 XPGN
+advisor vesting:  10,000,000 XPGN
+genesis reserve:  974,558 XPGN
+reward dripper:   469,855.729166666666165066 XPGN
+farm controller:  38,574.592382028910508494 XPGN
+admin safe:       0 XPGN
+admin timelock:   0 XPGN
+treasury safe:    149.378645232591760535 XPGN
+```
 
 ## L1 implementation gate
 
-No Paragon L1 bridge, migration, native-XPGN mint path, validator reward distributor, or genesis supply mapping is approved until this document has verified source/role/custody records and a checked supply invariant. The known BNB Chain address and live total supply are sufficient for planning, not for value-bearing implementation.
+Before any bridge, migration, genesis, validator reward, or native-XPGN implementation:
+
+1. Treat BNB Chain XPGN as the live canonical holder asset.
+2. Preserve the 550M global hard-cap accounting.
+3. Do not mint the 160M validator reserve until the approved Paragon L1 validator rewards path exists.
+4. Use `validatorMinted() == 0` and `validatorMintingEnabled() == false` as the current baseline.
+5. Explicitly model the admin timelock and pre-DAO custody path.
+6. Resolve whether `0xFE1648...540A` or another operational contract controls actual validator reserve distribution before enabling any L1 reward design.
+7. Do not rely on the operational `reward dripper` address as the validator minter unless role ownership is changed or separately verified.
+
+## Open items
+
+- Record deployment transaction hash.
+- Record exact source artifact hash or verified source export.
+- Verify the admin safe / timelock relationship operationally.
+- Identify and document the `0xFE1648A6C58D790CDf01e35B8d538163355A540A` validator rewards contract.
+- Map the reward dripper and farm controller contract roles outside the XPGN token.

@@ -30,7 +30,7 @@ As of the current Paragon L1 planning baseline:
 - XPGN TGE has already occurred with the Paragon DEX launch on 2026-05-08.
 - The current deployment is on BNB Chain at `0x130A2eB49C8143EfA4547a10EbEA48BCf10a729A`.
 - Direct BNB Chain RPC reads confirmed token name `XPGN Token`, symbol `XPGN`, 18 decimals, cap `550,000,000 XPGN`, and current total supply `67,000,000 XPGN` at block `100420021`.
-- The existing XPGN token is expected to be an ERC-20 governance token using OpenZeppelin-style `ERC20Capped`, `ERC20Permit`, `ERC20Votes`, role-based mint buckets, and pausable transfers; verified deployed source remains authoritative.
+- The existing XPGN token is expected to be an ERC-20 governance token using OpenZeppelin-style `ERC20Capped`, `ERC20Permit`, `ERC20Votes`, role-based mint buckets, and pausable transfers; verified deployed source is now recorded in `docs/XPGN_CANONICAL_SUPPLY_RECORD.md` and remains authoritative.
 - The declared hard cap is 550,000,000 XPGN with 18 decimals.
 - The launch seed mint was 202,020 XPGN for initial DEX seed liquidity.
 - The validator / chain reserve bucket is 160,000,000 XPGN and is intended for Paragon L1 validator economics.

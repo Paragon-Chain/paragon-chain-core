@@ -22,7 +22,7 @@ This document is intentionally a decision gate. It does not approve value-bearin
 - The 160,000,000 XPGN validator / chain reserve is unminted.
 - The validator reserve should only mint when Paragon L1 starts validator rewards.
 - There is no DAO currently.
-- Verified deployed source, constructor arguments, role holders, deployer, and bucket counter reads remain pending.
+- Verified deployed source, constructor arguments, role holders, and bucket counter reads are recorded in `docs/XPGN_CANONICAL_SUPPLY_RECORD.md`.
 
 ## Non-negotiable supply rules
 
@@ -52,7 +52,7 @@ Risks:
 
 Required before implementation:
 
-- Verified source and role holders.
+- Verified source and role holders from `docs/XPGN_CANONICAL_SUPPLY_RECORD.md`.
 - Bridge architecture and threat model.
 - Custody model for validator reserve minting.
 - Emergency pause and bridge halt procedure.
