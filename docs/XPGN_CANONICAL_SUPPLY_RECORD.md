@@ -32,7 +32,7 @@ It intentionally separates Paragon-provided custody facts from independently ver
 - optimizer: `enabled, 200 runs`
 - EVM version: `paris`
 - deployer / constructor `daoMultisig`: `0x1Ab5F2d39154233cf469382Bb5c286E38Ad64F96`
-- constructor `validatorRewards`: `0xFE1648A6C58D790CDf01e35B8d538163355A540A`
+- constructor `validatorRewards` / Validator Rewards Safe: `0xFE1648A6C58D790CDf01e35B8d538163355A540A`
 - constructor `_teamVesting`: `0xc15Ec7880cf3b238e37c7f1f6cBEB2caa580AEa1`
 - constructor `_advisorVesting`: `0xAC609E8D3eB7142482460cd7FFCEB588B0846392`
 - constructor `genesisRecipient`: `0x27ead72500b893161209Ff1297C1bB41E7B72B0c`
@@ -55,12 +55,13 @@ Provided by Paragon on 2026-05-25:
 - advisor vesting: `0xAC609E8D3eB7142482460cd7FFCEB588B0846392`
 - genesis reserve: `0x27ead72500b893161209Ff1297C1bB41E7B72B0c`
 - reward dripper: `0x4DC07BB6cd804341D0B22Ac9c5087D81844eC827`
+- validator rewards safe: `0xFE1648A6C58D790CDf01e35B8d538163355A540A` — controlled by Admin Safe multisig
 - farm controller: `0xe78c441A963Dc0E5c9Bcc7b55c4f3D0B82085e6b`
 - admin safe: `0xFA8f82560959fB5597ADDc763570edB234899857`
 - admin timelock: `0xcc88881ee4F0fb3477B02979a325eDD91d306F72`
 - treasury safe: `0x1f7132ae2E16c702BCCEef4aA11F2B804f4E5383`
 
-Operational note: Paragon states the admin safe acts as multisig for the timelock. Direct XPGN role reads show the token admin roles are currently held by the timelock address `0xcc88881ee4F0fb3477B02979a325eDD91d306F72`.
+Operational note: Paragon states the admin safe acts as multisig for the timelock. Paragon also states the Validator Rewards Safe `0xFE1648A6C58D790CDf01e35B8d538163355A540A` is controlled by the Admin Safe multisig. Direct XPGN role reads show the token admin roles are currently held by the timelock address `0xcc88881ee4F0fb3477B02979a325eDD91d306F72`, while `VALIDATOR_MINTER_ROLE` is held by the Validator Rewards Safe.
 
 ## Contract feature verification
 
@@ -198,7 +199,7 @@ Before any bridge, migration, genesis, validator reward, or native-XPGN implemen
 3. Do not mint the 160M validator reserve until the approved Paragon L1 validator rewards path exists.
 4. Use `validatorMinted() == 0` and `validatorMintingEnabled() == false` as the current baseline.
 5. Explicitly model the admin timelock and pre-DAO custody path.
-6. Resolve whether `0xFE1648...540A` or another operational contract controls actual validator reserve distribution before enabling any L1 reward design.
+6. Treat `0xFE1648...540A` as the current Validator Rewards Safe and `VALIDATOR_MINTER_ROLE` holder, controlled by the Admin Safe multisig per Paragon-provided custody information.
 7. Do not rely on the operational `reward dripper` address as the validator minter unless role ownership is changed or separately verified.
 
 ## Open items
@@ -206,5 +207,5 @@ Before any bridge, migration, genesis, validator reward, or native-XPGN implemen
 - Record deployment transaction hash.
 - Record exact source artifact hash or verified source export.
 - Verify the admin safe / timelock relationship operationally.
-- Identify and document the `0xFE1648A6C58D790CDf01e35B8d538163355A540A` validator rewards contract.
+- Verify the Admin Safe multisig control path for the Validator Rewards Safe `0xFE1648A6C58D790CDf01e35B8d538163355A540A` operationally.
 - Map the reward dripper and farm controller contract roles outside the XPGN token.
